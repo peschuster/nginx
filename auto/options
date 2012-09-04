@@ -15,7 +15,7 @@ NGX_LOCK_PATH=
 NGX_USER=
 NGX_GROUP=
 
-CC=${CC:-gcc}
+CC=${CROSS_COMPILE}${CC:-gcc}
 CPP=
 NGX_OBJS=objs
 
@@ -174,6 +174,18 @@ do
         --group=*)                       NGX_GROUP="$value"         ;;
 
         --crossbuild=*)                  NGX_PLATFORM="$value"      ;;
+
+        # cross compile support
+        --with-int=*)                    NGX_WITH_INT="$value"          ;;
+        --with-long=*)                   NGX_WITH_LONG="$value"         ;;
+        --with-long-long=*)              NGX_WITH_LONG_LONG="$value"    ;;
+        --with-ptr-size=*)               NGX_WITH_PTR_SIZE="$value"     ;;
+        --with-sig-atomic-t=*)           NGX_WITH_SIG_ATOMIC_T="$value" ;;
+        --with-size-t=*)                 NGX_WITH_SIZE_T="$value"       ;;
+        --with-off-t=*)                  NGX_WITH_OFF_T="$value"        ;;
+        --with-time-t=*)                 NGX_WITH_TIME_T="$value"       ;;
+	--with-endian=*)                 NGX_WITH_ENDIAN="$value"   	;;
+	--with-sys-nerr=*)               NGX_WITH_NGX_SYS_NERR="$value" ;;
 
         --builddir=*)                    NGX_OBJS="$value"          ;;
 

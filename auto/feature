@@ -49,12 +49,20 @@ eval "/bin/sh -c \"$ngx_test\" >> $NGX_AUTOCONF_ERR 2>&1"
 
 if [ -x $NGX_AUTOTEST ]; then
 
+    if [ ".$CROSS_COMPILE" = "." ]; then
+        NGX_AUTOTEST_EXEC="$NGX_AUTOTEST"
+	NGX_FOUND_MSG=""
+    else
+        NGX_AUTOTEST_EXEC="true"
+	NGX_FOUND_MSG=" (not tested, cross compiling)"
+    fi
+
     case "$ngx_feature_run" in
 
         yes)
             # /bin/sh is used to intercept "Killed" or "Abort trap" messages
-            if /bin/sh -c $NGX_AUTOTEST >> $NGX_AUTOCONF_ERR 2>&1; then
-                echo " found"
+            if /bin/sh -c $NGX_AUTOTEST_EXEC >> $NGX_AUTOCONF_ERR 2>&1; then
+                echo " found$NGX_FOUND_MSG"
                 ngx_found=yes
 
                 if test -n "$ngx_feature_name"; then
@@ -68,25 +76,34 @@ if [ -x $NGX_AUTOTEST ]; then
 
         value)
             # /bin/sh is used to intercept "Killed" or "Abort trap" messages
-            if /bin/sh -c $NGX_AUTOTEST >> $NGX_AUTOCONF_ERR 2>&1; then
-                echo " found"
+            if /bin/sh -c $NGX_AUTOTEST_EXEC >> $NGX_AUTOCONF_ERR 2>&1; then
+                echo " found$NGX_FOUND_MSG"
                 ngx_found=yes
 
-                cat << END >> $NGX_AUTO_CONFIG_H
+		if [ ".$CROSS_COMPILE" != "." ]; then
+                    cat << END >> $NGX_AUTO_CONFIG_H
 
 #ifndef $ngx_feature_name
-#define $ngx_feature_name  `$NGX_AUTOTEST`
+#define $ngx_feature_name  $(eval "echo \$NGX_WITH_${ngx_feature_name}")
 #endif
 
 END
-            else
+                else
+                    cat << END >> $NGX_AUTO_CONFIG_H
+
+#ifndef $ngx_feature_name
+#define $ngx_feature_name  `$NGX_AUTOTEST_EXEC`
+#endif
+
+END
+                fi
                 echo " found but is not working"
             fi
         ;;
 
         bug)
             # /bin/sh is used to intercept "Killed" or "Abort trap" messages
-            if /bin/sh -c $NGX_AUTOTEST >> $NGX_AUTOCONF_ERR 2>&1; then
+            if /bin/sh -c $NGX_AUTOTEST_EXEC >> $NGX_AUTOCONF_ERR 2>&1; then
                 echo " not found"
 
             else
