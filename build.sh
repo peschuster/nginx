@@ -30,6 +30,7 @@ rm -r objs
 	--with-size-t=4 \
 	--with-off-t=4 \
 	--with-time-t=4 \
+	--with-min-free-mem=10240 \
 	--with-cc-opt="-mxl-multiply-high -mno-xl-soft-mul -mno-xl-soft-div -mxl-barrel-shift -mxl-pattern-compare -mcpu=v8.30.a --static --sysroot=/home/peschuster/project/microblaze-unknown-linux-gnu/microblaze-unknown-linux-gnu/sys-root"
 
 make -f objs/Makefile 
