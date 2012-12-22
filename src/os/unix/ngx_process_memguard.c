@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ngx_atomic.h>
 #include <ngx_process_memguard.h>
 
 const unsigned MAXLINE=9999;
@@ -33,8 +32,8 @@ char ngx_master_process_memguard_triggered(long min_mem)
         return 0;
 	}
 	
-	while (p = fgets(line, MAXLINE, proc_meminfo)) {        
-		if (p = _ngx_process_memguard_find_line(line)) {
+	while ((p = fgets(line, MAXLINE, proc_meminfo))) {
+		if ((p = _ngx_process_memguard_find_line(line))) {
 			
 			 // check last char for newline terminator
             pend = p + strlen(p) - 1;

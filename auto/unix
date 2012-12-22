@@ -778,3 +778,5 @@ ngx_feature_test="struct stat sb;
                   openat(AT_FDCWD, \".\", O_RDONLY|O_NOFOLLOW);
                   fstatat(AT_FDCWD, \".\", &sb, AT_SYMLINK_NOFOLLOW);"
 . auto/feature
+
+have=NGX_PROCESS_FREEMEM_MIN value=$NGX_PROCESS_FREEMEM_MIN . auto/define

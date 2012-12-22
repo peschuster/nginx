@@ -191,7 +191,8 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
         #ifdef NGX_PROCESS_FREEMEM_MIN
         if (ngx_sigalrm == 1) {
             ngx_sigalrm = 0;
-
+			
+            ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "checking free mem");
             if (ngx_master_process_memguard_triggered(NGX_PROCESS_FREEMEM_MIN) != 0) {
 			    ngx_reconfigure = 1;
             }
