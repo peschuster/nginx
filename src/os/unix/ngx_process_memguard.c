@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ngx_atomic.h>
 #include <ngx_process_memguard.h>
 
 const unsigned MAXLINE=9999;
@@ -21,11 +22,11 @@ char* _ngx_process_memguard_find_line(char *line)
     return (strncmp(p, match,  match_len) == 0) ? (p + match_len) : NULL;
 }
 
-uint16_t ngx_master_process_memguard_triggered(uint64_t min_mem)
+char ngx_master_process_memguard_triggered(ngx_atomic_uint_t min_mem)
 {
     char *p, *pend;
     char line[MAXLINE];
-    uint64_t fmem = 0;
+    ngx_atomic_uint_t fmem = 0;
     FILE *proc_meminfo = fopen("/proc/meminfo", "r");
 
     if (!proc_meminfo) {
