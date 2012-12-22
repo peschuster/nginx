@@ -38,12 +38,15 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)src\http\modules\perl;$(SolutionDir)src\os\unix;$(SolutionDir)src\os;$(SolutionDir)src\misc;$(SolutionDir)src\mail;$(SolutionDir)src\http;$(SolutionDir)src\event;$(SolutionDir)src\core;$(SolutionDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>H:\studium\ies-project\software\nginx\src\os;H:\studium\ies-project\software\nginx\src\misc;H:\studium\ies-project\software\nginx\src\http;H:\studium\ies-project\software\nginx\src\event;H:\studium\ies-project\software\nginx\src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>cstdint;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
