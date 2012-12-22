@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ngx_atomic.h>
 #include <ngx_process_memguard.h>
 
 const unsigned MAXLINE=9999;
