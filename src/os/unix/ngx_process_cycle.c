@@ -4,12 +4,15 @@
  * Copyright (C) Nginx, Inc.
  */
 
-
+#include <cstdint>
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_event.h>
 #include <ngx_channel.h>
 
+#ifdef NGX_PROCESS_FREEMEM_MIN
+#include <ngx_process_memguard.h>
+#endif
 
 static void ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n,
     ngx_int_t type);
@@ -173,6 +176,12 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
         ngx_log_debug1(NGX_LOG_DEBUG_EVENT, cycle->log, 0,
                        "wake up, sigio %i", sigio);
+
+		#ifdef NGX_PROCESS_FREEMEM_MIN
+		if (ngx_master_process_memguard_triggered(NGX_PROCESS_FREEMEM_MIN) != 0) {
+			ngx_reconfigure = 1;
+		}
+		#endif
 
         if (ngx_reap) {
             ngx_reap = 0;
