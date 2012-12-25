@@ -241,8 +241,12 @@ ngx_write_chain_to_file(ngx_file_t *file, ngx_chain_t *cl, off_t offset,
             return NGX_ERROR;
         }
 
+        ngx_log_debug2(NGX_LOG_DEBUG_CORE, file->log, 0,
+                       "writev: %d, %z", file->fd, n);
+
         file->sys_offset += n;
         file->offset += n;
+        offset += n;
         total += n;
 
     } while (cl);
@@ -359,7 +363,7 @@ ngx_open_glob(ngx_glob_t *gl)
 {
     int  n;
 
-    n = glob((char *) gl->pattern, GLOB_NOSORT, NULL, &gl->pglob);
+    n = glob((char *) gl->pattern, 0, NULL, &gl->pglob);
 
     if (n == 0) {
         return NGX_OK;
