@@ -4,12 +4,14 @@
  * Copyright (C) Nginx, Inc.
  */
 
-
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_event.h>
 #include <ngx_channel.h>
 
+#ifdef NGX_PROCESS_FREEMEM_MIN
+#include <ngx_process_memguard.h>
+#endif
 
 static void ngx_start_worker_processes(ngx_cycle_t *cycle, ngx_int_t n,
     ngx_int_t type);
@@ -89,6 +91,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
     ngx_uint_t         n, sigio;
     sigset_t           set;
     struct itimerval   itv;
+    struct itimerval   itmem;
     ngx_uint_t         live;
     ngx_msec_t         delay;
     ngx_listening_t   *ls;
@@ -164,6 +167,17 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
             }
         }
 
+        #ifdef NGX_PROCESS_FREEMEM_MIN
+        itmem.it_interval.tv_sec = 0;
+        itmem.it_interval.tv_usec = 0;
+        itmem.it_value.tv_sec = 1;
+        itmem.it_value.tv_usec = 0;
+
+        if (setitimer(ITIMER_REAL, &itmem, NULL) == -1) {
+            ngx_log_error(NGX_LOG_ALERT, cycle->log, ngx_errno, "setitimer() failed");
+        }
+		#endif
+
         ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "sigsuspend");
 
         sigsuspend(&set);
@@ -172,6 +186,17 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 
         ngx_log_debug1(NGX_LOG_DEBUG_EVENT, cycle->log, 0,
                        "wake up, sigio %i", sigio);
+
+        #ifdef NGX_PROCESS_FREEMEM_MIN
+        if (ngx_sigalrm == 1) {
+            ngx_sigalrm = 0;
+			
+            ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "checking free mem");
+            if (ngx_master_process_memguard_triggered(NGX_PROCESS_FREEMEM_MIN) != 0) {
+			    ngx_reconfigure = 1;
+            }
+        }
+        #endif
 
         if (ngx_reap) {
             ngx_reap = 0;

@@ -792,3 +792,5 @@ ngx_feature_test='struct addrinfo *res;
                   if (getaddrinfo("localhost", NULL, NULL, &res) != 0) return 1;
                   freeaddrinfo(res)'
 . auto/feature
+
+have=NGX_PROCESS_FREEMEM_MIN value=$NGX_PROCESS_FREEMEM_MIN . auto/define

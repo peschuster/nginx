@@ -185,8 +185,9 @@ do
         --with-size-t=*)                 NGX_WITH_SIZE_T="$value"       ;;
         --with-off-t=*)                  NGX_WITH_OFF_T="$value"        ;;
         --with-time-t=*)                 NGX_WITH_TIME_T="$value"       ;;
-	--with-endian=*)                 NGX_WITH_ENDIAN="$value"   	;;
-	--with-sys-nerr=*)               NGX_WITH_NGX_SYS_NERR="$value" ;;
+        --with-endian=*)                 NGX_WITH_ENDIAN="$value"       ;;
+        --with-sys-nerr=*)               NGX_WITH_NGX_SYS_NERR="$value" ;;
+        --with-min-free-mem=*)           NGX_PROCESS_FREEMEM_MIN="$value";;
 
         --builddir=*)                    NGX_OBJS="$value"          ;;
 
