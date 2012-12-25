@@ -507,6 +507,9 @@
     <ClCompile Include="src\os\unix\ngx_writev_chain.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\os\unix\ngx_process_memguard.c">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\nginx.h">
@@ -768,6 +771,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\ngx_auto_config.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ngx_auto_headers.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os\unix\ngx_process_memguard.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

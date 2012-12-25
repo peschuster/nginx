@@ -216,6 +216,7 @@
     <ClCompile Include="src\os\unix\ngx_posix_init.c" />
     <ClCompile Include="src\os\unix\ngx_process.c" />
     <ClCompile Include="src\os\unix\ngx_process_cycle.c" />
+    <ClCompile Include="src\os\unix\ngx_process_memguard.c" />
     <ClCompile Include="src\os\unix\ngx_pthread_thread.c" />
     <ClCompile Include="src\os\unix\ngx_readv_chain.c" />
     <ClCompile Include="src\os\unix\ngx_recv.c" />
@@ -289,6 +290,7 @@
     <ClInclude Include="src\mail\ngx_mail_smtp_module.h" />
     <ClInclude Include="src\mail\ngx_mail_ssl_module.h" />
     <ClInclude Include="src\ngx_auto_config.h" />
+    <ClInclude Include="src\ngx_auto_headers.h" />
     <ClInclude Include="src\os\unix\ngx_alloc.h" />
     <ClInclude Include="src\os\unix\ngx_atomic.h" />
     <ClInclude Include="src\os\unix\ngx_channel.h" />
@@ -309,6 +311,7 @@
     <ClInclude Include="src\os\unix\ngx_posix_config.h" />
     <ClInclude Include="src\os\unix\ngx_process.h" />
     <ClInclude Include="src\os\unix\ngx_process_cycle.h" />
+    <ClInclude Include="src\os\unix\ngx_process_memguard.h" />
     <ClInclude Include="src\os\unix\ngx_setaffinity.h" />
     <ClInclude Include="src\os\unix\ngx_setproctitle.h" />
     <ClInclude Include="src\os\unix\ngx_shmem.h" />
