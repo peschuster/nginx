@@ -176,7 +176,7 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
         if (setitimer(ITIMER_REAL, &itmem, NULL) == -1) {
             ngx_log_error(NGX_LOG_ALERT, cycle->log, ngx_errno, "setitimer() failed");
         }
-		#endif
+        #endif
 
         ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "sigsuspend");
 
@@ -193,7 +193,8 @@ ngx_master_process_cycle(ngx_cycle_t *cycle)
 			
             ngx_log_debug0(NGX_LOG_DEBUG_EVENT, cycle->log, 0, "checking free mem");
             if (ngx_master_process_memguard_triggered(NGX_PROCESS_FREEMEM_MIN) != 0) {
-			    ngx_reconfigure = 1;
+                ngx_reconfigure = 1;
+                ngx_log_error(NGX_LOG_NOTICE, cycle->log, 0, "restaring workers (low mem)");
             }
         }
         #endif

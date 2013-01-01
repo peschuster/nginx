@@ -12,12 +12,12 @@ char* _ngx_process_memguard_trim_ws(char *line)
 
 char* _ngx_process_memguard_find_line(char *line)
 {
-	const char* match = "MemFree:";
-	const int match_len = 8;
+    const char* match = "MemFree:";
+    const int match_len = 8;
     char *p;
 
     p = _ngx_process_memguard_trim_ws(line);
-	
+    
     return (strncmp(p, match,  match_len) == 0) ? (p + match_len) : NULL;
 }
 
@@ -30,24 +30,24 @@ char ngx_master_process_memguard_triggered(long min_mem)
 
     if (!proc_meminfo) {
         return 0;
-	}
-	
-	while ((p = fgets(line, MAXLINE, proc_meminfo))) {
-		if ((p = _ngx_process_memguard_find_line(line))) {
-			
-			 // check last char for newline terminator
+    }
+    
+    while ((p = fgets(line, MAXLINE, proc_meminfo))) {
+        if ((p = _ngx_process_memguard_find_line(line))) {
+            
+             // check last char for newline terminator
             pend = p + strlen(p) - 1;
             if (*pend == '\n') *pend=0;
             
-			p = _ngx_process_memguard_trim_ws(p);			
-			sscanf(p, "%ld", &fmem);
-	
-			fclose(proc_meminfo);
-			
-			return (fmem * 1024) < min_mem;
+            p = _ngx_process_memguard_trim_ws(p);            
+            sscanf(p, "%ld", &fmem);
+    
+            fclose(proc_meminfo);
+            
+            return fmem < min_mem;
         }
     }
-	
-	fclose(proc_meminfo);	
-	return 0;	
+    
+    fclose(proc_meminfo);    
+    return 0;    
 }

@@ -17,9 +17,9 @@ rm -r objs
 #export NGX_SYS_NERR=132
 
 export CROSS_COMPILE=microblaze-unknown-linux-gnu-
+	#--with-debug \
 
 ./configure \
-	--with-debug \
         --without-http_rewrite_module \
         --without-http_gzip_module \
 	--without-http_charset_module \
@@ -45,6 +45,7 @@ export CROSS_COMPILE=microblaze-unknown-linux-gnu-
         --without-http_upstream_ip_hash_module \
         --without-http_upstream_least_conn_module \
         --without-http_upstream_keepalive_module \
+	--without-http-cache \
 	--without-pcre \
 	--without-select_module \
 	--without-poll_module \
@@ -58,7 +59,7 @@ export CROSS_COMPILE=microblaze-unknown-linux-gnu-
 	--with-size-t=4 \
 	--with-off-t=4 \
 	--with-time-t=4 \
-	--with-min-free-mem=10240 \
+	--with-min-free-mem=51200 \
 	--with-cc-opt="-mxl-multiply-high -mno-xl-soft-mul -mno-xl-soft-div -mxl-barrel-shift -mxl-pattern-compare -mcpu=v8.30.a --static --sysroot=/home/peschuster/project/microblaze-unknown-linux-gnu/microblaze-unknown-linux-gnu/sys-root -g" > configure.log
 
 # --sysroot=/home/peschuster/project/microblaze-unknown-linux-gnu/microblaze-unknown-linux-gnu/sys-root
